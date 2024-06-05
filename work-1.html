@@ -6,6 +6,36 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <div id="root"></div>
+  <script>
+    const getPokemonAJAX = () => {
+      const xhr = new XMLHttpRequest();
+      console.dir("데이터 받기 전 조회 : " + xhr);
+      xhr.open("GET", "https://apis.data.go.kr/6300000/eventDataService/eventDataListJson?serviceKey=BOSIHO7gl1tSe4mkEEfU0TErgpn97yFSS8q7aBAJ%2FWkDdRB4F450fg8Sfts8jfBjIxx69ea%2FcxlSpFzL77XWMQ%3D%3D&", true);
+      xhr.addEventListener("load", ()=> {
+        if (xhr.status === 200) {
+          console.log("데이터 받은 후 조회");
+          console.dir (xhr);
+
+          const result = JSON.parse(xhr.responseText);
+          console.dir(result);
+          const pokemons = result.results;
+          console.dir(pokemons);
+
+          const root = document.getElementById('root');
+          const ul = document.createElement('ul');
+          pokemons.forEach((pokemon) => {
+            const li = document.createElement('li');
+            li.textContent = pokemon.name;
+            ul.appendChild(li);
+          });
+          root.appendChild(ul);
+        }
+      });
+      xhr.send();
+    };
+
+    getPokemonAJAX();
+  </script>
 </body>
 </html>
